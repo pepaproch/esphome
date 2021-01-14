@@ -15,6 +15,7 @@ static const uint8_t RF_CODE_LEARN_KO = 0xA2;
 static const uint8_t RF_CODE_LEARN_OK = 0xA3;
 static const uint8_t RF_CODE_RFIN = 0xA4;
 static const uint8_t RF_CODE_RFOUT = 0xA5;
+static const uint8_t RF_CODE_ADVANCED_RFIN = 0xA6;
 static const uint8_t RF_CODE_SNIFFING_ON = 0xA6;
 static const uint8_t RF_CODE_SNIFFING_OFF = 0xA7;
 static const uint8_t RF_CODE_RFOUT_NEW = 0xA8;
@@ -22,6 +23,7 @@ static const uint8_t RF_CODE_LEARN_NEW = 0xA9;
 static const uint8_t RF_CODE_LEARN_KO_NEW = 0xAA;
 static const uint8_t RF_CODE_LEARN_OK_NEW = 0xAB;
 static const uint8_t RF_CODE_RFOUT_BUCKET = 0xB0;
+static const uint8_t RF_CODE_RFIN_BUCKET = 0xB1;
 static const uint8_t RF_CODE_STOP = 0x55;
 static const uint8_t RF_DEBOUNCE = 200;
 
@@ -32,12 +34,21 @@ struct RFBridgeData {
   uint32_t code;
 };
 
+struct RFBridgeAdvancedData {
+  uint8_t length;
+  uint8_t protocol;
+  std::string code;
+};
+
 class RFBridgeComponent : public uart::UARTDevice, public Component {
  public:
   void loop() override;
   void dump_config() override;
   void add_on_code_received_callback(std::function<void(RFBridgeData)> callback) {
-    this->callback_.add(std::move(callback));
+    this->data_callback_.add(std::move(callback));
+  }
+  void add_on_advanced_code_received_callback(std::function<void(RFBridgeAdvancedData)> callback) {
+    this->advanced_data_callback_.add(std::move(callback));
   }
   void send_code(RFBridgeData data);
   void learn();
