@@ -118,9 +118,7 @@ void RFBridgeComponent::write_byte_str_(std::string codes) {
   uint8_t code;
   int size = codes.length();
   for (int i = 0; i < size; i += 2) {
-
     code = strtol(codes.substr(i, 2).c_str(), nullptr, 16);
-    ESP_LOGVV(TAG, "writing 0x%02X", code);
     this->write(code);
   }
 }
