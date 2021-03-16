@@ -10,7 +10,7 @@ namespace rf_bridge {
 static const uint8_t RF_MESSAGE_SIZE = 9;
 static const uint8_t RF_CODE_START = 0xAA;
 static const uint8_t RF_CODE_ACK = 0xA0;
-static const uint8_t RF_CODE_LEARN = 0xA1;
+static const uint8_t RF_CODE_LEARN = 0xb  ;
 static const uint8_t RF_CODE_LEARN_KO = 0xA2;
 static const uint8_t RF_CODE_LEARN_OK = 0xA3;
 static const uint8_t RF_CODE_RFIN = 0xA4;
